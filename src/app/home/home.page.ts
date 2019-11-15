@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { CodeProvider } from '../../providers/code';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +11,19 @@ import { CodeProvider } from '../../providers/code';
 export class HomePage {
   name: string;
   status: number;
-  constructor(public codeProvider : CodeProvider, public alertController: AlertController){}
+  constructor(public codeProvider : CodeProvider,
+    public alertController: AlertController,
+    public loadingController: LoadingController){
+  }
+
+  async presentLoading(){
+    const loading = await this.loadingController.create({
+      message: "please wait...",
+    });
+    await loading.present();
+    const { role, data } = await loading.onDidDismiss();
+    console.log('Loading dismissed!');
+  }  
   async voteAlert(name:string){
     const alert = await this.alertController.create({
       header: 'Input Your Code',
@@ -32,6 +45,7 @@ export class HomePage {
         {
           text: 'Vote',
           handler: data => {
+            this.presentLoading();
             this.vote(name,data.code);
             console.log('Vote clicked');
           }
@@ -44,6 +58,7 @@ export class HomePage {
   }
 
   async voteTrue(){
+    this.loadingController.dismiss();
     const alert = await this.alertController.create({
       message: 'Vote Successful!',
       buttons: [
@@ -61,6 +76,7 @@ export class HomePage {
     console.log(result)
   }
   async voteFalse(){
+    this.loadingController.dismiss();
     const alert = await this.alertController.create({
       message: "Invalid code. Please try again.",
       buttons: [

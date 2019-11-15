@@ -1,5 +1,7 @@
 {
   "name": "igamesvotingsys",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

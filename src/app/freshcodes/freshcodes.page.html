@@ -1,0 +1,12 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Fresh Codes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <h2 *ngFor="let codeauth of codeauths">
+    Code: <b><u>{{codeauth.code}}</u></b>  Status : {{codeauth.status}}
+  </h2>
+  <ion-button (click)="previousCode()">Previous</ion-button>   <ion-button (click)="nextCode()">Next</ion-button>
+</ion-content>

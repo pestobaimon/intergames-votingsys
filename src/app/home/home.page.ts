@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AlertController } from '@ionic/angular';
-import { CodeProvider } from '../../providers/code';
+//import { CodeProvider } from '../../providers/code'; HEEEROKU
 import { LoadingController } from '@ionic/angular';
 import { VoteService } from '../../providers/vote.service';
 import { AlertService } from '../../providers/alert.service';
@@ -14,7 +14,7 @@ import { AlertService } from '../../providers/alert.service';
 export class HomePage {
   name: string;
   status: number;
-  constructor(public codeProvider : CodeProvider,
+  constructor(//public codeProvider : CodeProvider, HEEROKU
     public alertController: AlertController,
     public loadingController: LoadingController,
     public voteService: VoteService,

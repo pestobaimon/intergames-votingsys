@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { Codeauth } from '../../models/codeauth.model';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { switchMap } from 'rxjs/operators'
 
 @Component({
   selector: 'app-freshcodes',
@@ -11,6 +8,7 @@ import { switchMap } from 'rxjs/operators'
 })
 export class FreshcodesPage implements OnInit {
   codeauths = [];
+  codeauthsall = [];
   LastestEntry: any;
   firstInResponse: any = [];
   lastInResponse: any = [];
@@ -22,6 +20,23 @@ export class FreshcodesPage implements OnInit {
   constructor(private afs: AngularFirestore) {
    }
   
+  loadAllCodes(){
+    this.afs.collection(`codeauth`, q => q.orderBy('status','desc'))
+    .snapshotChanges().subscribe(response => {
+      if (!response.length){
+        console.log('no data available');
+        return false;
+      }
+      this.codeauthsall = [];
+      response.forEach(a => {
+        let codeauth:any = a.payload.doc.data();
+        codeauth.id = a.payload.doc.id;
+        this.codeauthsall.push(codeauth);
+      });
+    },error => {
+    });
+  }
+
   loadCodes(){
     this.afs.collection(`codeauth`, q => q.orderBy('status','desc').limit(1))
     .snapshotChanges().subscribe(response => {
@@ -135,6 +150,7 @@ export class FreshcodesPage implements OnInit {
 
   ngOnInit() {
     this.loadCodes();
+    this.loadAllCodes();
   }
 
 }

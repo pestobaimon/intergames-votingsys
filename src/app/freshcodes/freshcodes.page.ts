@@ -7,6 +7,8 @@ import { AngularFirestore } from 'angularfire2/firestore';
   styleUrls: ['./freshcodes.page.scss'],
 })
 export class FreshcodesPage implements OnInit {
+  usedcount = 0;
+  unusedcount = 0;
   codeauths = [];
   codeauthsall = [];
   LastestEntry: any;
@@ -20,6 +22,13 @@ export class FreshcodesPage implements OnInit {
   constructor(private afs: AngularFirestore) {
    }
   
+  loadCodeCount(){
+    this.afs.collection('codecount').doc('set1').get().subscribe(res =>{
+      this.usedcount = res.get('used');
+      this.unusedcount = res.get('unused');
+    })
+  }
+
   loadAllCodes(){
     this.afs.collection(`codeauth`, q => q.orderBy('status','desc'))
     .snapshotChanges().subscribe(response => {
@@ -66,6 +75,7 @@ export class FreshcodesPage implements OnInit {
     });
   }
   nextCode(){
+    this.loadCodeCount();
     this.disable_next = true;
     this.afs.collection(`codeauth`, ref => ref
     .limit(1)
@@ -100,6 +110,7 @@ export class FreshcodesPage implements OnInit {
     });
   }
   previousCode(){
+    this.loadCodeCount();
     this.disable_prev = true;
     this.afs.collection(`codeauth`, ref => ref
     .orderBy('status','desc')
@@ -151,6 +162,7 @@ export class FreshcodesPage implements OnInit {
   ngOnInit() {
     this.loadCodes();
     this.loadAllCodes();
+    this.loadCodeCount();
   }
 
 }

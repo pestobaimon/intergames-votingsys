@@ -13,8 +13,8 @@
     <ion-button (click)="nextCode()" [disabled]="disable_next">Next</ion-button>
   </div>
   <div class='ion-text-center'>
-    <h1 *ngFor="let codeauths of codeauthsall">
-      
+    <h1>
+      <h5>Used codes : <b>{{usedcount}}</b> Unused codes : <b>{{unusedcount}}</b> </h5>
     </h1>
   </div>
 </ion-content>

@@ -6,12 +6,13 @@ export const environment = {
   production: false,
   firebase: {
     apiKey: "",
-    authDomain: "testproj1123.firebaseapp.com",
-    databaseURL: "https://testproj1123.firebaseio.com",
-    projectId: "testproj1123",
-    storageBucket: "testproj1123.appspot.com",
-    messagingSenderId: "513324615605",
-    appId: "1:513324615605:web:b3b2ede529a836988f3bfc"
+    authDomain: "intergames-votingsys.firebaseapp.com",
+    databaseURL: "https://intergames-votingsys.firebaseio.com",
+    projectId: "intergames-votingsys",
+    storageBucket: "intergames-votingsys.appspot.com",
+    messagingSenderId: "1019486046243",
+    appId: "1:1019486046243:web:2f89744af6115435d28996",
+    measurementId: "G-G5B1H45WN8"
   }
 };
 

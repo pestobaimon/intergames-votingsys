@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
+import { AuthService } from '../../providers/auth.service';
 
 @Component({
   selector: 'app-freshcodes',
@@ -19,7 +20,11 @@ export class FreshcodesPage implements OnInit {
   disable_next: boolean = false;
   disable_prev: boolean = false;
 
-  constructor(private afs: AngularFirestore) {
+  constructor(private afs: AngularFirestore, private authService : AuthService) {
+   }
+  
+   ionViewCanEnter(){
+     return this.authService.isAuthenticated();
    }
   
   loadCodeCount(){

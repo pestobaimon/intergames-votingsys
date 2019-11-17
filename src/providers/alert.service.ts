@@ -68,4 +68,21 @@ export class AlertService{
     let result = await alert.onDidDismiss();
     console.log(result)
   }
+  async pwInvalidAlert(){
+    const alert = await this.alertController.create({
+      message: 'Password Invalid!',
+      buttons: [
+        {
+          text: 'Close',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    await alert.present();
+    let result = await alert.onDidDismiss();
+    console.log(result)
+  }
 }

@@ -11,6 +11,7 @@ import { SpinnerDialog } from '@ionic-native/spinner-dialog/ngx';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { AngularFireModule } from 'angularfire2';
+import { AngularFireAuthModule } from 'angularfire2/auth'
 import { AngularFirestoreModule, FirestoreSettingsToken } from 'angularfire2/firestore';
 
 @NgModule({
@@ -23,6 +24,7 @@ import { AngularFirestoreModule, FirestoreSettingsToken } from 'angularfire2/fir
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
+    AngularFireAuthModule
   ],
   providers: [
     StatusBar,

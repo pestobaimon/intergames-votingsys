@@ -69,6 +69,7 @@ export class AlertService{
     console.log(result)
   }
   async pwInvalidAlert(){
+    this.loadingController.dismiss();
     const alert = await this.alertController.create({
       message: 'Password Invalid!',
       buttons: [
@@ -84,5 +85,8 @@ export class AlertService{
     await alert.present();
     let result = await alert.onDidDismiss();
     console.log(result)
+  }
+  dismissLd(){
+    this.loadingController.dismiss();
   }
 }

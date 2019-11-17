@@ -16,14 +16,20 @@ export class AuthService {
     private alertService: AlertService){}
 
   login(password:string) {
-    this.afs.collection('freshcodepw').doc('pw1').get().subscribe( data =>{
-        if(data.get('password') == password){
-            this.router.navigate(['freshcodes']);
-            this.authState.next(true);
-        }else{
-            this.alertService.pwInvalidAlert();
-        }
-    })
+    if(!password){
+      this.alertService.inputEmptyAlert();
+    }else{
+      this.alertService.presentLoading();
+      this.afs.collection('freshcodepw').doc('pw1').get().subscribe( data =>{
+          if(data.get('password') == password){
+              this.router.navigate(['freshcodes']);
+              this.authState.next(true);
+              this.alertService.dismissLd();
+          }else{
+              this.alertService.pwInvalidAlert();
+          }
+      })
+    }
   }
  
   logout() {

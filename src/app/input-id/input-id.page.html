@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Register</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label>Student ID</ion-label>
+    <ion-input [(ngModel)]="id" type="number" placeholder="Your 10 Digit ID"></ion-input>
+  </ion-item>
+  <ion-button (click)="inputid()">Next</ion-button>
+  <ion-item *ngFor = "let next of name"> name.studentid</ion-item>
+</ion-content>

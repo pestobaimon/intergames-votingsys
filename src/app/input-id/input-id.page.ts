@@ -10,6 +10,10 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class InputIdPage implements OnInit {
 
+
+  private id: string;
+  private id_string: string;
+
   constructor(
     public router: Router,
     public alertController: AlertController,
@@ -19,8 +23,8 @@ export class InputIdPage implements OnInit {
   ngOnInit() {
   }
 
-  id
-  id_string
+  checkID(){
+  }
 
   inputid() {
     this.id_string = this.id.toString()

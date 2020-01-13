@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
-import { AngularFirestore } from 'angularfire2/firestore';
-import 'rxjs/add/operator/mergeMap';
-import { AlertService } from './alert.service';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { AlertService } from './alert.service';     
 
 @Injectable({providedIn: 'root'})
 export class VoteService{

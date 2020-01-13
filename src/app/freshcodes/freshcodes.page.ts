@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { AuthService } from '../../providers/auth.service';
+import { AlertController } from '@ionic/angular'
 
 @Component({
   selector: 'app-freshcodes',
@@ -20,130 +21,134 @@ export class FreshcodesPage implements OnInit {
   disable_next: boolean = false;
   disable_prev: boolean = false;
 
-  constructor(private afs: AngularFirestore, private authService : AuthService) {
-   }
-  
-   ionViewCanEnter(){
-     return this.authService.isAuthenticated();
-   }
-  
-  loadCodeCount(){
-    this.afs.collection('codecount').doc('set1').get().subscribe(res =>{
+
+
+  constructor(private afs: AngularFirestore, private authService: AuthService) {
+  }
+
+  ionViewCanEnter() {
+    return this.authService.isAuthenticated();
+  }
+
+  loadCodeCount() {
+    this.afs.collection('codecount').doc('set1').get().subscribe(res => {
       this.usedcount = res.get('used');
       this.unusedcount = res.get('unused');
     })
   }
 
-  loadAllCodes(){
-    this.afs.collection(`codeauth`, q => q.orderBy('status','desc'))
-    .snapshotChanges().subscribe(response => {
-      if (!response.length){
-        console.log('no data available');
-        return false;
-      }
-      this.codeauthsall = [];
-      response.forEach(a => {
-        let codeauth:any = a.payload.doc.data();
-        codeauth.id = a.payload.doc.id;
-        this.codeauthsall.push(codeauth);
+  loadAllCodes() {
+    this.afs.collection(`codeauth`, q => q.orderBy('status', 'desc'))
+      .snapshotChanges().subscribe(response => {
+        if (!response.length) {
+          console.log('no data available');
+          return false;
+        }
+        this.codeauthsall = [];
+        response.forEach(a => {
+          let codeauth: any = a.payload.doc.data();
+          codeauth.id = a.payload.doc.id;
+          this.codeauthsall.push(codeauth);
+        });
+      }, error => {
       });
-    },error => {
-    });
   }
 
-  loadCodes(){
-    this.afs.collection(`codeauth`, q => q.orderBy('status','desc').limit(1))
-    .snapshotChanges().subscribe(response => {
-      if (!response.length){
-        console.log('no data available');
-        return false;
-      }
-      this.codeauths = [];
+  loadCodes() {
+    this.afs.collection(`codeauth`, q => q.orderBy('status', 'desc').limit(1))
+      .snapshotChanges().subscribe(response => {
+        if (!response.length) {
+          console.log('no data available');
+          return false;
+        }
+        this.codeauths = [];
 
-      this.firstInResponse = response[0].payload.doc;
-      this.lastInResponse = response[response.length - 1].payload.doc;
-      response.forEach(a => {
-        let codeauth:any = a.payload.doc.data();
-        codeauth.id = a.payload.doc.id;
-        this.codeauths.push(codeauth);
+        this.firstInResponse = response[0].payload.doc;
+        this.lastInResponse = response[response.length - 1].payload.doc;
+        response.forEach(a => {
+          let codeauth: any = a.payload.doc.data();
+          codeauth.id = a.payload.doc.id;
+          this.codeauths.push(codeauth);
+        });
+        this.prev_strt_at = [];
+        this.pagination_clicked_count = 0;
+        this.disable_next = false;
+        this.disable_prev = false;
+        this.push_prev_startAt(this.firstInResponse);
+      }, error => {
+
       });
-
-
-      this.prev_strt_at = [];
-      this.pagination_clicked_count = 0;
-      this.disable_next = false;
-      this.disable_prev = false;
-
-      this.push_prev_startAt(this.firstInResponse);
-    },error => {
-
-    });
   }
-  nextCode(){
+  nextCode() {
     this.loadCodeCount();
     this.disable_next = true;
     this.afs.collection(`codeauth`, ref => ref
-    .limit(1)
-    .orderBy('status','desc')
-    .startAfter(this.lastInResponse)
+      .limit(1)
+      .orderBy('status', 'desc')
+      .startAfter(this.lastInResponse)
     ).get()
-    .subscribe(response => {
+      .subscribe(response => {
 
-      if(!response.docs.length){
-        this.disable_next = true;
-        return;
-      }
-      this.firstInResponse = response.docs[0];
-      this.lastInResponse = response.docs[response.docs.length - 1];
+        if (!response.docs.length) {
+          this.disable_next = true;
+          return;
+        }
+        this.firstInResponse = response.docs[0];
+        this.lastInResponse = response.docs[response.docs.length - 1];
 
-      this.codeauths = [];
-      
-      response.forEach(a => {
-        let codeauth:any = a.data();
-        codeauth.id = a.id;
-        this.codeauths.push(codeauth);
+        this.codeauths = [];
+
+        response.forEach(a => {
+          let codeauth: any = a.data();
+          codeauth.id = a.id;
+          this.codeauths.push(codeauth);
+        });
+
+        this.pagination_clicked_count++;
+
+        console.log(this.pagination_clicked_count);
+
+        this.push_prev_startAt(this.firstInResponse);
+
+        this.disable_next = false;
+
+      }, error => {
+        this.disable_next = false;
       });
-
-      this.pagination_clicked_count++;
-
-      this.push_prev_startAt(this.firstInResponse);
-      
-      this.disable_next = false;
-
-    },error => {
-      this.disable_next = false;
-    });
   }
-  previousCode(){
+  previousCode() {
+
     this.loadCodeCount();
     this.disable_prev = true;
     this.afs.collection(`codeauth`, ref => ref
-    .orderBy('status','desc')
-    .startAt(this.get_prev_startAt())
-    .endBefore(this.firstInResponse)
-    .limit(1))
-    .get().subscribe(response => {
+      .orderBy('status', 'desc')
+      .startAt(this.get_prev_startAt())
+      .endBefore(this.firstInResponse)
+      .limit(1))
+      .get().subscribe(response => {
 
-      this.firstInResponse = response.docs[0];
-      this.lastInResponse = response.docs[response.docs.length - 1];
+        this.firstInResponse = response.docs[0];
+        this.lastInResponse = response.docs[response.docs.length - 1];
 
-      this.codeauths = [];
-      response.forEach(a => {
-        let codeauth:any = a.data();
-        codeauth.id = a.id;
-        this.codeauths.push(codeauth);
+        this.codeauths = [];
+        response.forEach(a => {
+          let codeauth: any = a.data();
+          codeauth.id = a.id;
+          this.codeauths.push(codeauth);
+        });
+
+        this.pagination_clicked_count--;
+
+        console.log(this.pagination_clicked_count);
+
+        this.pop_prev_startAt(this.firstInResponse);
+
+        this.disable_prev = false;
+        this.disable_next = false;
+
+      }, error => {
+        this.disable_prev = false;
       });
-
-      this.pagination_clicked_count--;
-
-      this.pop_prev_startAt(this.firstInResponse);
-
-      this.disable_prev = false;
-      this.disable_next = false;
-
-    },error => {
-      this.disable_prev = false;
-    });
   }
 
   push_prev_startAt(prev_first_doc) {
@@ -157,11 +162,17 @@ export class FreshcodesPage implements OnInit {
   }
 
   pop_prev_startAt(prev_first_doc) {
-    this.prev_strt_at.forEach(element => {
+
+    try { this.prev_strt_at.forEach(element => {
       if (prev_first_doc.data().id == element.data().id) {
         element = null;
       }
-    });
+    });}
+    catch (e) {
+      if (e instanceof Error) {
+      }
+    }
+    
   }
 
   ngOnInit() {

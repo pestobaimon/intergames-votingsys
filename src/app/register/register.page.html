@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar class="color-grey">
+    <ion-title class="ion-text-center">
+      Register
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-button>
+        <ion-icon slot="start" name="arrow-back"></ion-icon> Back
+      </ion-button>
+    </ion-buttons>
+    <div slot='end' class="div-comp"></div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list>
+    <form [formGroup]="registerForm" class="saintpadding">
+
+      <div class="line-input"
+        [class.line-input-invalid]="!registerForm.controls.name.valid  && (registerForm.controls.name.dirty)">
+        <ion-item>
+          <ion-label position="floating">Name</ion-label>
+          <ion-input formControlName="name" type="text"></ion-input>
+        </ion-item>
+      </div>
+
+      <ion-item *ngIf="!registerForm.controls.name.valid  && (registerForm.controls.name.dirty)">
+        <p style="color: #f04141;">Please enter a valid name.</p>
+      </ion-item>
+
+
+      <div class="line-input"
+        [class.line-input-invalid]="!registerForm.controls.name.valid  && (registerForm.controls.name.dirty)">
+        <ion-item>
+          <ion-label position="floating">Last Name</ion-label>
+          <ion-input formControlName="lastName" type="text"></ion-input>
+        </ion-item>
+      </div>
+
+      <ion-item *ngIf="!registerForm.controls.lastName.valid  && (registerForm.controls.lastName.dirty)">
+        <p style="color: #f04141;">Please enter a valid last name.</p>
+      </ion-item>
+
+
+      <div class="line-input"
+        [class.item-select-invalid]="!registerForm.controls.year.valid  && (registerForm.controls.year.dirty)">
+        <ion-item>
+          <ion-label position="floating">Year</ion-label>
+          <ion-select formControlName="year">
+            <ion-select-option *ngFor="let year of years">{{year}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+
+      <div class="line-input"
+        [class.item-select-invalid]="!registerForm.controls.faculty.valid  && (registerForm.controls.faculty.dirty)">
+        <ion-item>
+          <ion-label position="floating">Faculty</ion-label>
+          <ion-select formControlName="faculty">
+            <ion-select-option *ngFor="let faculty of faculties">{{faculty}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+
+      <div class="line-input">
+        <ion-item>
+          <ion-label position="floating" color="dark">Student ID</ion-label>
+          <ion-input value="previously entered student id EX.61xxxxxxxx" disabled=true></ion-input>
+        </ion-item>
+      </div>
+    </form>
+  </ion-list>
+  <ion-button expand="block" size="default">Submit</ion-button>
+
+</ion-content>

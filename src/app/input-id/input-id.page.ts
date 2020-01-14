@@ -10,9 +10,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class InputIdPage implements OnInit {
 
-
-  private id: string;
   private id_string: string;
+  private id: number;
 
   constructor(
     public router: Router,
@@ -24,11 +23,24 @@ export class InputIdPage implements OnInit {
   }
 
   checkID(){
+    this.id = Number(this.id_string);
+    if (isNaN(this.id)) { //check if input contain string
+      this.showAlert("Error" , " Your student ID shouldn't contain text")
+    } else {
+      if (this.id_string.length != 10) {  //check if input is with length 10
+        this.showAlert("Error" , "This is not 10 digit student ID" )
+      } else {
+        if (Number(this.id_string.substring(0,2)) < 57 || Number(this.id_string.substring(0,2)) > 62) { //check if first two digit is current student
+          this.showAlert("Error" , "This is not current student ID" )
+        } else {
+          this.inputid()
+        }     
+      }
+    }
   }
 
   inputid() {
-    this.id_string = this.id.toString()
-    if (this.id_string.length == 10) {
+    this.id = Number(this.id_string);
       this.afs.collection(`users`).doc(this.id_string).get() //check with firestore database that this id have been created or not
         .toPromise()
         .then(doc => {
@@ -37,9 +49,8 @@ export class InputIdPage implements OnInit {
             this.afs.collection(`users`).doc(this.id_string).set({
               StudentID : this.id
             })
-            this.router.navigate([""]); //redirect to register page
+            this.router.navigate(["register"]); //redirect to register page
           } else {
-            // this.showAlert("Error", "ID Already Created!")
             console.log('Document Data: ', doc.data());
             this.router.navigate(["home"]);
           }
@@ -47,45 +58,7 @@ export class InputIdPage implements OnInit {
         .catch(err =>{
           console.log('Error',err);
         })
-        // console.log("hey")
-    }
-    else {
-      this.showAlert("Error", "Please input 10 Digit Student ID!")
-    }
   }
-
-  // inputid() {
-  //   this.id_string = this.id.toString()
-  //   if (this.id_string.length == 10) {
-  //     if (this.afs.collection(`users`).doc(this.id_string).get()
-  //       .toPromise()
-  //       .then(doc => {
-  //         if(!doc.exists) {
-  //           console.log('No ID!');
-  //         } else {
-  //           console.log('Document Data: ', doc.data());
-  //         }
-  //       })
-  //       .catch(err =>{
-  //         console.log('Error',err);
-  //       })
-  //       ) { //to check with firestore database that this id have been created or not
-  //       this.showAlert("Error", "ID Already Created!")
-  //       this.router.navigate(["home"]);
-  //       console.log("hey")
-        
-  //     } 
-  //     else {
-  //       this.afs.collection(`users`).doc(this.id_string).set({
-  //         StudentID : this.id
-  //       })
-  //       this.router.navigate([""]); //redirect to register page
-  //     }
-  //   }
-  //   else {
-  //     this.showAlert("Error", "Please input 10 Digit Student ID!")
-  //   }
-  // }
 
   async showAlert(header: string,message: string) {
     const alert = await this.alertController.create({
@@ -96,5 +69,6 @@ export class InputIdPage implements OnInit {
     await alert.present()
     let result = await alert.onDidDismiss();
     console.log(result)
+    console.log(message)
   }
 }

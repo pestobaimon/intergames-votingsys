@@ -1,0 +1,35 @@
+p {
+  font-size: 0.8em;
+  color: #d2d2d2;
+}
+
+ion-slides {
+  height: 100%;
+}
+
+ion-slide {
+  display: block;
+}
+
+ion-label,
+.select-text {
+  margin-left: 10px;
+}
+
+.invalid {
+  border: 1px solid #ea6153;
+}
+
+.div-comp {
+  width: 84.95px;
+}
+.color-grey {
+  --color: #ffffff;
+  --background: #2b364a;
+}
+
+.saintpadding{
+    div{
+        padding: 7.5px;
+    }
+}

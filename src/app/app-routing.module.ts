@@ -4,7 +4,7 @@ import { AuthGuard } from '../providers/authguard.service';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: 'input-id', pathMatch: 'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)},
   {
     path: 'freshcodes',
@@ -13,9 +13,10 @@ const routes: Routes = [
   },
   { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminPageModule)},
   {
-    path: 'input-id',
-    loadChildren: () => import('./input-id/input-id.module').then( m => m.InputIdPageModule)
+    path: 'register',
+    loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
   }
+  
 ];
 
 @NgModule({

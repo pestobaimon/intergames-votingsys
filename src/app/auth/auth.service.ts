@@ -9,7 +9,7 @@ export class AuthService {
   redirectUrl:string;
   constructor(
   ) {
-    this.userState = JSON.parse(localStorage.getItem('user'));
+    this.userState = JSON.parse(localStorage.getItem('userState'));
     if(this.userState === null){
     }else{
       this.idSubmitted = this.userState.idSubmitted;
@@ -29,6 +29,6 @@ export class AuthService {
       idSubmitted : this.idSubmitted,
       dataSubmitted : this.dataSubmitted
     }
-    localStorage.setItem('user', JSON.stringify(this.userState));
+    localStorage.setItem('userState', JSON.stringify(this.userState));
   }
 }

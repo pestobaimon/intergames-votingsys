@@ -21,19 +21,18 @@ export class InputIdPage implements OnInit {
     private alertController: AlertController,
     private afs: AngularFirestore,
     private userService: UserService,
-    private alertService: AlertService,
     private authService : AuthService
   ) {}
 
   ngOnInit(){
-    if(this.authService.userState.idSubmitted && this.authService.userState.dataSubmitted){
+    if(this.authService.userState === null){
+    }else if(this.authService.userState.idSubmitted && this.authService.userState.dataSubmitted){
       this.router.navigate(['/home']);
     }
   }
 
   checkStatus() {
-    console.log('id:',this.authService.idSubmitted);
-    console.log('reg:',this.authService.dataSubmitted);
+    console.log(this.userService.userData);
   }
 
   checkID(){

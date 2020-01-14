@@ -18,7 +18,11 @@ const routes: Routes = [
   {
     path: 'input-id',
     loadChildren: () => import('./input-id/input-id.module').then( m => m.InputIdPageModule)
+  },  {
+    path: 'edit-information',
+    loadChildren: () => import('./edit-information/edit-information.module').then( m => m.EditInformationPageModule)
   }
+
   
 ];
 

@@ -15,20 +15,20 @@ export class UserService {
         public alertService: AlertService,
         public authService : AuthService
         ) {}
-    id : string;
     data : any;
+    userData : any;
     inputid(id_string:string) {
-        this.id = id_string;
+        this.userData = {id : id_string}
+        this.setUserData(this.userData);
         this.alertService.presentLoading();
             this.afs.collection(`users`).doc(id_string).get() //check with firestore database that this id have been created or not
             .toPromise()
             .then(doc => {
                 if(!doc.exists) {
-                    console.log('Not register Student ID!');
+                    console.log('ID not registered');
                     this.afs.collection(`users`).doc(id_string).set({
-                        StudentID : this.id
-                    }).then((result)=>{
-                        console.log(result);
+                        StudentID : this.userData.id
+                    }).then(()=>{                        
                         this.authService.setIdState(true);
                         this.router.navigate(["/register"]); //redirect to register page
                         this.alertService.dismissLd();
@@ -41,6 +41,8 @@ export class UserService {
                     this.alertService.dismissLd();
                 } else {
                     console.log('Document Data: ', doc.data());
+                    this.userData = doc.data();
+                    this.setUserData(doc.data());
                     this.authService.setIdState(true);
                     this.authService.setDataState(true);
                     this.router.navigate(["/home"]);
@@ -54,15 +56,25 @@ export class UserService {
     
     submitUserData(data:any){
         this.data = data;
-        this.afs.collection(`users`).doc(this.id)
+        this.afs.collection(`users`).doc(this.userData.id)
         .update(data)
         .then(() => {
+            let temp_id = this.userData.id;
+            this.userData = data;
+            this.userData.id = temp_id;
+            this.setUserData(this.userData);
             this.authService.setDataState(true);
             this.router.navigate(['/home'])
         })
         .catch(err => {
             console.log('error',err);
         });
+    }
+    setUserData(data:any){
+        localStorage.setItem('userData',JSON.stringify(data));
+    }
+    getUserData():any{
+        return JSON.parse(localStorage.getItem('userData'));
     }
 }
 

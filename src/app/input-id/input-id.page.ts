@@ -11,7 +11,7 @@ import { AuthService } from '../auth/auth.service';
   templateUrl: './input-id.page.html',
   styleUrls: ['./input-id.page.scss'],
 })
-export class InputIdPage {
+export class InputIdPage implements OnInit {
 
   public id_string: string;
   public id: number;
@@ -24,6 +24,12 @@ export class InputIdPage {
     private alertService: AlertService,
     private authService : AuthService
   ) {}
+
+  ngOnInit(){
+    if(this.authService.userState.idSubmitted && this.authService.userState.dataSubmitted){
+      this.router.navigate(['/home']);
+    }
+  }
 
   checkStatus() {
     console.log('id:',this.authService.idSubmitted);

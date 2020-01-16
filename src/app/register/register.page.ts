@@ -20,7 +20,7 @@ export class RegisterPage {
     private authService : AuthService
     ) {
 
-    this.registerForm = formBuilder.group({
+    this.registerForm = this.formBuilder.group({
       name: ['', Validators.required],
       lastName: ['', Validators.required],
       year: ['', Validators.required],

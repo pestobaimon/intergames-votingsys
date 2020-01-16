@@ -28,7 +28,6 @@
         <p style="color: #f04141;">Please enter a valid name.</p>
       </ion-item>
 
-
       <div class="line-input"
         [class.line-input-invalid]="!registerForm.controls.name.valid  && (registerForm.controls.name.dirty)">
         <ion-item>
@@ -40,7 +39,6 @@
       <ion-item *ngIf="!registerForm.controls.lastName.valid  && (registerForm.controls.lastName.dirty)">
         <p style="color: #f04141;">Please enter a valid last name.</p>
       </ion-item>
-
 
       <div class="line-input"
         [class.item-select-invalid]="!registerForm.controls.year.valid  && (registerForm.controls.year.dirty)">

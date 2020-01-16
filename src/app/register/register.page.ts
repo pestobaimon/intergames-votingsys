@@ -12,7 +12,7 @@ export class RegisterPage {
 
   public registerForm: FormGroup;
   public years: Array<string> = ['1','2','3','4'];
-  public faculties: Array<string> = ['BBA', 'AERO','BSAC','INDA','BAScii','ADME','CommDe','COMMERTS','EBA','ICE','BALAC','NANO','PGS','JIPP','RAIE'];
+  public faculties: Array<string> = ['BBA', 'AERO','BSAC','INDA','BAScii','ADME','CommDe','COMMARTS','EBA','ICE','BALAC','NANO','PGS','JIPP','RAIE'];
 
   constructor(
     private formBuilder: FormBuilder,

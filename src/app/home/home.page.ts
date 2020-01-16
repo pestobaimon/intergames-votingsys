@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { AlertController } from '@ionic/angular';
-//import { CodeProvider } from '../../providers/code'; HEEEROKU
-import { LoadingController } from '@ionic/angular';
+//import { LoadingController } from '@ionic/angular';
 import { VoteService } from '../../providers/vote.service';
 import { AlertService } from '../../providers/alert.service';
+import { UserService } from 'src/providers/user.service';
 
 
 @Component({
@@ -15,10 +15,11 @@ export class HomePage {
   name: string;
   status: number;
   constructor(//public codeProvider : CodeProvider, HEEROKU
-    public alertController: AlertController,
-    public loadingController: LoadingController,
-    public voteService: VoteService,
-    public alsv: AlertService){
+    private alertController : AlertController,
+    private voteService : VoteService,
+    private alsv : AlertService,
+    private userService : UserService
+    ){
   }
   async voteAlert(name:string){
     const alert = await this.alertController.create({
@@ -57,5 +58,9 @@ export class HomePage {
   }
   vote(name:string,code:string){
     this.voteService.vote(name,code);
+  }
+  clearUser(){
+    this.userService.clearUserData();
+    location.reload();
   }
 }

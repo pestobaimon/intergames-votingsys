@@ -39,8 +39,7 @@ export class InputIdPage implements OnInit {
     this.id = Number(this.id_string);
     if (!(+this.id === +this.id)) { //check if input contain string +this.id === +this.id
       this.showAlert("Error" , " Your student ID should contain only numbers")
-    } else {
-      if (this.id_string.length != 10) {  //check if input is with length 10
+    } else if(this.id_string.length != 10) { //check if input is with length 10
         this.showAlert("Error" , "This is not 10 digit student ID" )
       } else {
         if (Number(this.id_string.substring(0,2)) < 57 || Number(this.id_string.substring(0,2)) > 62) { //check if first two digit is current student
@@ -50,7 +49,24 @@ export class InputIdPage implements OnInit {
         }     
       }
     }
-  }
+  
+
+  // checkID(){
+  //   this.id = Number(this.id_string);
+  //   if (!(+this.id === +this.id)) { //check if input contain string +this.id === +this.id
+  //     this.showAlert("Error" , " Your student ID should contain only numbers")
+  //   } else {
+  //     if (this.id_string.length != 10) {  //check if input is with length 10
+  //       this.showAlert("Error" , "This is not 10 digit student ID" )
+  //     } else {
+  //       if (Number(this.id_string.substring(0,2)) < 57 || Number(this.id_string.substring(0,2)) > 62) { //check if first two digit is current student
+  //         this.showAlert("Error" , "This is not current student ID" )
+  //       } else {
+  //         this.userService.inputid(this.id_string)
+  //       }     
+  //     }
+  //   }
+  // }
 
   // inputid() {
   //   this.id = Number(this.id_string);

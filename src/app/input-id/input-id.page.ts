@@ -45,7 +45,7 @@ export class InputIdPage implements OnInit {
         if (Number(this.id_string.substring(0,2)) < 57 || Number(this.id_string.substring(0,2)) > 62) { //check if first two digit is current student
           this.showAlert("Error" , "This is not current student ID" )
         } else {
-          this.userService.inputid(this.id_string)
+          this.userService.inputid(this.id_string);
         }     
       }
     }

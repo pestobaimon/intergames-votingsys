@@ -3,10 +3,13 @@ import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AlertService } from './alert.service';
 import { AuthService } from 'src/app/auth/auth.service';
-import { ThrowStmt } from '@angular/compiler';
+//import { ThrowStmt } from '@angular/compiler';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
+
+    userData: any;
+    student_id:string;
 
     constructor(
         private router: Router,
@@ -14,33 +17,40 @@ export class UserService {
         private alertService: AlertService,
         private authService: AuthService
     ) { }
-    userData: any;
-    student_id:string;
+    
     inputid(id_string: string) {
-        this.userData = { id: id_string }
+        this.userData = { id: id_string };
+        this.student_id = id_string;
         this.setUserData(this.userData);
+        //console.log('inputid: ',this.userData)
+        this.authService.setIdState(true);
+        this.checkID();
+    }
+
+    checkID(){
+        const id = this.student_id;
         this.alertService.presentLoading();
-        this.afs.collection(`users`).doc(id_string).get() //check with firestore database that this id have been created or not
+        this.afs.collection(`users`).doc(id).get() //check with firestore database that this id have been created or not
             .toPromise()
             .then(doc => {
                 if (!doc.exists) {
                     console.log('ID not registered');
-                    this.student_id = id_string;
-                    this.authService.setIdState(true);
+                    //this.student_id = id;
+                    //this.authService.setIdState(true);
                     this.router.navigate(["/register"]); //redirect to register page
                     this.alertService.dismissLd();
                 }else {
                     console.log('Document Data: ', doc.data());
                     this.userData = doc.data();
                     this.setUserData(doc.data());
-                    this.authService.setIdState(true);
+                    //this.authService.setIdState(true);
                     this.authService.setDataState(true);
                     this.router.navigate(["/registered"]);
                     this.alertService.dismissLd();
                 }
             })
             .catch(err => {
-                console.log('Error', err);
+                console.error('Error', err);
             })
     }
 
@@ -75,11 +85,15 @@ export class UserService {
     }
     clearUserData() {
         localStorage.clear();
+        this.authService.setDataState(false);
+        this.authService.setIdState(false);
+        location.reload()
     }
     getUserData(): any {
         return JSON.parse(localStorage.getItem('userData'));
     }
     getStudentID(): string {
+        //console.log(this.userData);
         return this.getUserData().id;
     }
 }

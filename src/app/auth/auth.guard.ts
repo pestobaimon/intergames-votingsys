@@ -21,11 +21,12 @@ export class AuthGuard implements CanActivate {
 
     checkIdSubmitted(url:string): boolean {
       if(this.authService.idSubmitted){
+        console.log('id submitted');
         return true;
       }else{
         this.authService.redirectUrl = url;
-
         this.router.navigate(['/input-id']);
+        console.log('id unsubmitted');
         return false;
       }
     }

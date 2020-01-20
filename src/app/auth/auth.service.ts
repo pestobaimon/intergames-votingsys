@@ -7,6 +7,7 @@ export class AuthService {
   idSubmitted : boolean = false;
   dataSubmitted : boolean = false;
   redirectUrl:string;
+
   constructor(
   ) {
     this.userState = JSON.parse(localStorage.getItem('userState'));
@@ -22,6 +23,7 @@ export class AuthService {
   }
   setDataState(state:boolean){
     this.dataSubmitted = state;
+    //console.log('data state updated to true');
     this.setUserState();
   }
   setUserState(){

@@ -25,7 +25,7 @@ export class AuthHomeGuard implements CanActivate {
       }else{
         this.authService.redirectUrl = url;
 
-        this.router.navigate(['/register']);
+        this.router.navigate(['/registered']);
         return false;
       }
     }

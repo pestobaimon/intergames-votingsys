@@ -8,7 +8,6 @@ const routes: Routes = [
   { path: '', redirectTo: 'input-id', pathMatch: 'full' },
   { path: 'home',
    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),
-   canActivate: [AuthHomeGuard]
   },
   {
     path: 'register',
@@ -22,7 +21,13 @@ const routes: Routes = [
   {
     path: 'edit-information',
     loadChildren: () => import('./edit-information/edit-information.module').then( m => m.EditInformationPageModule)
+  },
+  {
+    path: 'registered',
+    loadChildren: () => import('./registered/registered.module').then( m => m.RegisteredPageModule),
+    canActivate: [AuthHomeGuard]
   }
+
 
   
 ];

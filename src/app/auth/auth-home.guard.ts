@@ -1,32 +1,33 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, CanActivate, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { AuthService } from './auth.service';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { HomeauthService } from 'src/providers/homeauth.service';
+import { map } from 'rxjs/operators'
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthHomeGuard implements CanActivate {
+  server_res:boolean = false;
   constructor(
-    private authService : AuthService,
-    private router : Router
+    private haS : HomeauthService,
+    private router : Router,
+    private afs : AngularFirestore
   ){}
   canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): boolean {
+    state: RouterStateSnapshot) : Observable<boolean> {
       let url: string = state.url;
-
-      return this.checkIdSubmitted(url);
-    }
-
-    checkIdSubmitted(url:string): boolean {
-      if(this.authService.dataSubmitted){
-        return true;
-      }else{
-        this.authService.redirectUrl = url;
-
-        this.router.navigate(['/registered']);
-        return false;
-      }
+      return this.haS.home_activated$.pipe(
+        map( e =>{
+          if (e.activated){
+            return true;
+          } else {
+            return false;
+          }
+        })
+      )
     }
 }

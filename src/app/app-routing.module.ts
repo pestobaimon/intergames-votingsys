@@ -8,6 +8,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'input-id', pathMatch: 'full' },
   { path: 'home',
    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),
+   canActivate:[AuthHomeGuard]
   },
   {
     path: 'register',
@@ -25,7 +26,7 @@ const routes: Routes = [
   {
     path: 'registered',
     loadChildren: () => import('./registered/registered.module').then( m => m.RegisteredPageModule),
-    canActivate: [AuthHomeGuard]
+    
   }
 
 

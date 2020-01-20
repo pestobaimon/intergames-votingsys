@@ -45,8 +45,10 @@ export class UserService {
     }
 
     submitUserData(data: any) {
+        this.alertService.presentLoading();
         this.userData = data;
         this.userData.id = this.student_id;
+        this.userData.recordedTime = new Date();
         this.afs.collection(`users`).doc(this.student_id)
             .set(this.userData)
             .then(() => {
@@ -54,11 +56,14 @@ export class UserService {
                     code : this.student_id,
                     recordedTime : new Date(),
                     status : 1
+                }).then(()=>{
+                    console.log('code added');
                 }).catch(err => {
                     console.log('error', err);
                 })
                 this.setUserData(this.userData);
                 this.authService.setDataState(true);
+                this.alertService.dismissLd();
                 this.router.navigate(['/registered']);
             })
             .catch(err => {
@@ -72,8 +77,7 @@ export class UserService {
         localStorage.clear();
     }
     getUserData(): any {
-        //return JSON.parse(localStorage.getItem('userData'));
-        return this.student_id;
+        return JSON.parse(localStorage.getItem('userData'));
     }
     getStudentID(): string {
         return this.getUserData().id;

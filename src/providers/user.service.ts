@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AlertService } from './alert.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { ThrowStmt } from '@angular/compiler';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -13,8 +14,8 @@ export class UserService {
         private alertService: AlertService,
         private authService: AuthService
     ) { }
-    data: any;
     userData: any;
+    student_id:string;
     inputid(id_string: string) {
         this.userData = { id: id_string }
         this.setUserData(this.userData);
@@ -24,26 +25,17 @@ export class UserService {
             .then(doc => {
                 if (!doc.exists) {
                     console.log('ID not registered');
-                    this.afs.collection(`users`).doc(id_string).set({
-                        StudentID: this.userData.id
-                    }).then(() => {
-                        this.authService.setIdState(true);
-                        this.router.navigate(["/register"]); //redirect to register page
-                        this.alertService.dismissLd();
-                    }).catch(err => {
-                        console.log('error', err);
-                    });
-                } else if (!doc.data().firstName) {
+                    this.student_id = id_string;
                     this.authService.setIdState(true);
-                    this.router.navigate(['/register']);
+                    this.router.navigate(["/register"]); //redirect to register page
                     this.alertService.dismissLd();
-                } else {
+                }else {
                     console.log('Document Data: ', doc.data());
                     this.userData = doc.data();
                     this.setUserData(doc.data());
                     this.authService.setIdState(true);
                     this.authService.setDataState(true);
-                    this.router.navigate(["/home"]);
+                    this.router.navigate(["/registered"]);
                     this.alertService.dismissLd();
                 }
             })
@@ -53,16 +45,21 @@ export class UserService {
     }
 
     submitUserData(data: any) {
-        this.data = data;
-        this.afs.collection(`users`).doc(this.userData.id)
-            .update(data)
+        this.userData = data;
+        this.userData.id = this.student_id;
+        this.afs.collection(`users`).doc(this.student_id)
+            .set(this.userData)
             .then(() => {
-                let temp_id = this.userData.id;
-                this.userData = data;
-                this.userData.id = temp_id;
+                this.afs.collection('codeauth').doc(this.student_id).set({
+                    code : this.student_id,
+                    recordedTime : new Date(),
+                    status : 1
+                }).catch(err => {
+                    console.log('error', err);
+                })
                 this.setUserData(this.userData);
                 this.authService.setDataState(true);
-                this.router.navigate(['/home'])
+                this.router.navigate(['/registered']);
             })
             .catch(err => {
                 console.log('error', err);
@@ -75,7 +72,8 @@ export class UserService {
         localStorage.clear();
     }
     getUserData(): any {
-        return JSON.parse(localStorage.getItem('userData'));
+        //return JSON.parse(localStorage.getItem('userData'));
+        return this.student_id;
     }
     getStudentID(): string {
         return this.getUserData().id;

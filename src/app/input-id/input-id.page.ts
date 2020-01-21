@@ -27,7 +27,7 @@ export class InputIdPage implements OnInit {
   ngOnInit(){
     if(this.authService.userState === null){
     }else if(this.authService.userState.idSubmitted && this.authService.userState.dataSubmitted){
-      //this.router.navigate(['/home']);
+      this.router.navigate(['/registered']);
     }
   }
 

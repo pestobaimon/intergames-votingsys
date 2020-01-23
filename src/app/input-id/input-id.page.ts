@@ -31,10 +31,6 @@ export class InputIdPage implements OnInit {
     }
   }
 
-  checkStatus() {
-    console.log(this.userService.userData);
-  }
-
   checkID(){
     this.id = Number(this.id_string);
     if (!(+this.id === +this.id)) { //check if input contain string +this.id === +this.id

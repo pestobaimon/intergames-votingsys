@@ -23,11 +23,11 @@ export class HomePage {
   }
   async voteAlert(name:string){
     const alert = await this.alertController.create({
-      header: 'Input Your Code',
+      header: 'Input Your Student ID',
       inputs: [{
           name: 'code',
           type: 'text',
-          placeholder: 'ex. 1234ABCD'
+          placeholder: 'ex. 61318xxxxx'
         },
       ],
       buttons: [
@@ -58,9 +58,5 @@ export class HomePage {
   }
   vote(name:string,code:string){
     this.voteService.vote(name,code);
-  }
-  clearUser(){
-    this.userService.clearUserData();
-    location.reload();
   }
 }

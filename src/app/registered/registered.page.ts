@@ -9,7 +9,7 @@ import { UserService } from 'src/providers/user.service';
 export class RegisteredPage implements OnInit {
 
   constructor(
-    private userService : UserService
+    public userService : UserService
   ) { }
 
   ngOnInit(

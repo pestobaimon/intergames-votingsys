@@ -68,6 +68,23 @@ export class AlertService {
     let result = await alert.onDidDismiss();
     console.log(result)
   }
+  async alreadySubmitted() {
+    const alert = await this.alertController.create({
+      message: "This ID has already been registered!",
+      buttons: [
+        {
+          text: 'Close',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    await alert.present();
+    let result = await alert.onDidDismiss();
+    console.log(result)
+  }
   async pwInvalidAlert() {
     this.loadingController.dismiss();
     const alert = await this.alertController.create({

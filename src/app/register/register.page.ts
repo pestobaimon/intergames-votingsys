@@ -51,6 +51,7 @@ export class RegisterPage {
   checkStatus() {
     console.log('id:', this.authService.idSubmitted);
     console.log('reg:', this.authService.dataSubmitted);
+    this.userService.clearUserData();
   }
 
 }

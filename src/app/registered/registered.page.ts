@@ -8,10 +8,15 @@ import { UserService } from 'src/providers/user.service';
 })
 export class RegisteredPage implements OnInit {
 
-  constructor(private userService : UserService) { }
+  constructor(
+    private userService : UserService
+  ) { }
 
   ngOnInit(
   ) {
   }
-
+  clearUser(){
+    this.userService.clearUserData();
+    location.reload();
+  }
 }

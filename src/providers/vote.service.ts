@@ -6,7 +6,7 @@ import { AlertService } from './alert.service';
 export class VoteService{
     constructor(private afs: AngularFirestore,
                 private alservice: AlertService){}
-    private codeRef = this.afs.collection('codeauth');
+    private codeRef = this.afs.collection('users');
     private partRef = this.afs.collection('participants');
 
     vote(name:string,code:string){
@@ -20,7 +20,7 @@ export class VoteService{
             else if(data.get("status")==1){
                 this.updateCode(code,0); //change code state to used.
                 this.updateScore(name);
-                this.updateCodeCount();
+                //this.updateCodeCount();
                 this.alservice.voteTrue();
             }
             else{

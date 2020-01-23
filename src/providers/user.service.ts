@@ -69,19 +69,11 @@ export class UserService {
         this.alertService.presentLoading();
         this.userData = data;
         this.userData.id = this.student_id;
+        this.userData.status = 1;
         this.userData.recordedTime = new Date();
         this.afs.collection(`users`).doc(this.student_id)
             .set(this.userData)
             .then(() => {
-                this.afs.collection('codeauth').doc(this.student_id).set({
-                    code: this.student_id,
-                    recordedTime: new Date(),
-                    status: 1
-                }).then(() => {
-                    console.log('code added');
-                }).catch(err => {
-                    console.log('error', err);
-                })
                 this.setUserData(this.userData);
                 this.authService.setDataState(true);
                 this.alertService.dismissLd();

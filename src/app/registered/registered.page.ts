@@ -12,7 +12,8 @@ export class RegisteredPage implements OnInit {
     private userService : UserService
   ) { }
 
-  ngOnInit() {
+  ngOnInit(
+  ) {
   }
   clearUser(){
     this.userService.clearUserData();

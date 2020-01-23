@@ -33,18 +33,19 @@ export class UserService {
         this.afs.collection(`users`).doc(id).get() //check with firestore database that this id have been created or not
             .toPromise()
             .then(doc => {
-                let dc = doc.data();
-
-                const noInfo = (typeof dc.faculty == "undefined") || (typeof dc.year == "undefined")
-                || (typeof dc.firstName == "undefined") || (typeof dc.lastName == "undefined");
-
+                let noInfo: boolean = false;
+                if (doc.exists) {
+                    let dc = doc.data();
+                    noInfo = (typeof dc.faculty == "undefined") || (typeof dc.year == "undefined")
+                        || (typeof dc.firstName == "undefined") || (typeof dc.lastName == "undefined");
+                }
                 if (!doc.exists) {
                     console.log('ID not registered');
                     //this.student_id = id;
                     //this.authService.setIdState(true);
                     this.router.navigate(["/register"]); //redirect to register page
                     this.alertService.dismissLd();
-                } else if(noInfo){
+                } else if (noInfo) {
                     this.router.navigate(["/register"]);
                     this.alertService.dismissLd();
                 } else {

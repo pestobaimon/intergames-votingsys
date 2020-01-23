@@ -4,7 +4,7 @@
       Register
     </ion-title>
     <ion-buttons slot="start">
-      <ion-button>
+      <ion-button (click)="back()">
         <ion-icon slot="start" name="arrow-back"></ion-icon> Back
       </ion-button>
     </ion-buttons>
@@ -69,7 +69,6 @@
     </form>
   </ion-list>
   <ion-button expand="block" size="default" (click)="submit()">Submit</ion-button>
-  <ion-button expand="block" size="default" (click)="checkStatus()">Reset auth sate</ion-button>
   
 </ion-content>
 

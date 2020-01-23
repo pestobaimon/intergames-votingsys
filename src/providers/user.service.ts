@@ -49,14 +49,14 @@ export class UserService {
                     this.router.navigate(["/register"]);
                     this.alertService.dismissLd();
                 } else {
-                    console.log('Document Data: ', doc.data());
-                    this.userData = doc.data();
-                    this.setUserData(doc.data());
+                    //console.log('Document Data: ', doc.data());
+                    //this.userData = doc.data();
+                    //this.setUserData(doc.data());
                     //this.authService.setIdState(true);
-                    this.authService.setDataState(true);
+                    //this.authService.setDataState(true);
                     this.alertService.dismissLd();
                     this.alertService.alreadySubmitted();
-                    this.router.navigate(["/home"]);
+                    //this.router.navigate(["/home"]);
                     this.alertService.dismissLd();
                 }
             })

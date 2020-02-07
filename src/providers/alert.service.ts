@@ -66,7 +66,7 @@ export class AlertService {
     });
     await alert.present();
     let result = await alert.onDidDismiss();
-    console.log(result)
+    console.log(result);
   }
   async alreadySubmitted() {
     const alert = await this.alertController.create({

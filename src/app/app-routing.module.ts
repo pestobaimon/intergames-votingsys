@@ -30,6 +30,10 @@ const routes: Routes = [
     loadChildren: () => import('./registered/registered.module').then( m => m.RegisteredPageModule),
     canActivate: [AuthGuard, AuthRegisteredGuard]
     
+  },
+  {
+    path: 'result',
+    loadChildren: () => import('./result/result.module').then( m => m.ResultPageModule)
   }
 
 

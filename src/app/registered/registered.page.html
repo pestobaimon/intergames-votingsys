@@ -7,15 +7,15 @@
 <ion-content class="ion-padding">
     <div>
       <p class="thanks">Thank You {{this.userService.getUserData().firstName}}!</p>
-      <p class="student-id"> Your student ID is {{this.userService.getUserData().id}}</p>
+      <p class="student-id"> Your student ID is {{this.userService.getStudentID()}}</p>
       <p class="ion-text-start">You've just registered for the 14th CU Intergames!<br>
       Thank you for taking time to register. We hope you enjoy our open ceremony.<br><br>
       </p>
       <p class="ion-text-start">
-      The 14th CU Intergames Staff
+      The CU Intergames 14th Staff
       </p>
   </div>
-
+  
   <ion-button (click)="clearUser()">Clear User</ion-button>
 
 </ion-content>

@@ -99,5 +99,11 @@ export class UserService {
         //console.log(this.userData);
         return this.getUserData().id;
     }
+
+    votedCandidate(candidate:string,studentID:string) {
+        this.afs.collection('users').doc(studentID).update({
+            voteFor : candidate
+        })
+    }
 }
 

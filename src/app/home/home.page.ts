@@ -46,6 +46,7 @@ export class HomePage {
               this.alsv.inputEmptyAlert();
             }else{
               this.vote(name,String(data.code));
+              this.userService.votedCandidate(name,data.code);
             }
             console.log('Vote clicked');
           }
